@@ -132,24 +132,40 @@ while running:
 
     # user car controls here!
     hat_data = joystick.get_hat(0)
+    x = int(joystick.get_axis(0) * 100)
+    y = int(joystick.get_axis(1) * 100)
+    requested_direction = int(MathBox.get_direction_rotated(0, 0, x, y))
+    throttle = (MathBox.find_range(x, y, 0, 0) / 100)
+    if throttle != 0:
+        car.set_direction = requested_direction
+
+    # if throttle > 0:
+    #     car.is_accelerating
+    # else:
+    #     car.is_decelerating
+
+    car.current_speed = throttle * car.max_speed
+
+    print(requested_direction, throttle)
+
     car.is_firing = joystick.get_button(0)
-    if hat_data[0] == 1:
-        car.is_turning_right = True
-        car.is_turning_left = False
-    if hat_data[0] == -1:
-        car.is_turning_left = True
-        car.is_turning_right = False
-    if hat_data[1] == 1:
-        car.is_accelerating = True
-        car.is_decelerating = False
-    if hat_data[1] == -1:
-        car.is_decelerating = True
-        car.is_accelerating = False
-    if hat_data[0] == 0 and hat_data[1] == 0:
-        car.is_decelerating = False
-        car.is_accelerating = False
-        car.is_turning_left = False
-        car.is_turning_right = False
+    # if hat_data[0] == 1:
+    #     car.is_turning_right = True
+    #     car.is_turning_left = False
+    # if hat_data[0] == -1:
+    #     car.is_turning_left = True
+    #     car.is_turning_right = False
+    # if hat_data[1] == 1:
+    #     car.is_accelerating = True
+    #     car.is_decelerating = False
+    # if hat_data[1] == -1:
+    #     car.is_decelerating = True
+    #     car.is_accelerating = False
+    # if hat_data[0] == 0 and hat_data[1] == 0:
+    #     car.is_decelerating = False
+    #     car.is_accelerating = False
+    #     car.is_turning_left = False
+    #     car.is_turning_right = False
 
     time_previous = time.time() * 1000
 
